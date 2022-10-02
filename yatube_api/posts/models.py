@@ -55,12 +55,7 @@ class Follow(models.Model):
             raise ValidationError('Нельзя подписываться на самого себя.')
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'following'],
-                name='unique_user_following'
-            )
-        ]
+        unique_together = 'user', 'following'
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
 
