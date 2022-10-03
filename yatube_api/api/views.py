@@ -18,6 +18,8 @@ User = get_user_model()
 
 
 class PostViewSet(viewsets.ModelViewSet):
+    """Обработка операций с постами."""
+
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (IsAuthorOrReadOnly, IsAuthenticatedOrReadOnly, )
@@ -28,12 +30,16 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(ReadOnlyGroupViewSet):
+    """Обработка операций с группами."""
+
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """Обработка операций с комментариями."""
+
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrReadOnly, IsAuthenticatedOrReadOnly, )
 
@@ -54,6 +60,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(FollowMixinViewSet):
+    """Обработка операций с подписками."""
+
     serializer_class = FollowSerializer
     filter_backends = (filters.SearchFilter, )
     pagination_class = None

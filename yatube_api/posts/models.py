@@ -6,6 +6,8 @@ User = get_user_model()
 
 
 class Post(models.Model):
+    """Определение подели постов."""
+
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
@@ -26,6 +28,8 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Определение модели комментариев."""
+
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(
@@ -37,6 +41,7 @@ class Comment(models.Model):
 
 class Follow(models.Model):
     """Определение модели системы подписок."""
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -50,18 +55,24 @@ class Follow(models.Model):
         verbose_name='Автор',
     )
 
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'],
+                name='unique_user_following'
+            )
+        ]
+
     def clean(self):
         if self.user == self.following:
             raise ValidationError('Нельзя подписываться на самого себя.')
 
-    class Meta:
-        unique_together = 'user', 'following'
-        verbose_name = 'Подписка'
-        verbose_name_plural = 'Подписки'
-
 
 class Group(models.Model):
     """Определение модели Group и ее полей."""
+
     title = models.CharField(
         max_length=200,
         verbose_name='Название группы',

@@ -8,6 +8,8 @@ User = get_user_model()
 
 
 class PostSerializer(serializers.ModelSerializer):
+    """Сериализатор постов."""
+
     author = serializers.SlugRelatedField(
         read_only=True,
         default=serializers.CurrentUserDefault(),
@@ -21,12 +23,16 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    """Сериализатор групп."""
+
     class Meta:
         fields = '__all__'
         model = Group
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    """Сериализатор комментариев."""
+
     author = serializers.SlugRelatedField(
         read_only=True,
         default=serializers.CurrentUserDefault(),
@@ -39,6 +45,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
+    """Сериализатор подписок."""
+
     user = serializers.SlugRelatedField(
         read_only=True,
         default=serializers.CurrentUserDefault(),
@@ -50,6 +58,13 @@ class FollowSerializer(serializers.ModelSerializer):
         slug_field='username'
     )
 
+    def validate_following(self, value):
+        if value == self.context['request'].user:
+            raise serializers.ValidationError(
+                'Нельзя подписаться на самого себя!'
+            )
+        return value
+
     class Meta:
         fields = ('user', 'following', )
         model = Follow
@@ -59,10 +74,3 @@ class FollowSerializer(serializers.ModelSerializer):
                 fields=('user', 'following')
             )
         ]
-
-    def validate_following(self, value):
-        if value == self.context['request'].user:
-            raise serializers.ValidationError(
-                'Нельзя подписаться на самого себя!'
-            )
-        return value
