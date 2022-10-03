@@ -62,6 +62,7 @@ python3 manage.py runserver
 ## Примеры запросов
 
 Для получения списка постов, отправте GET-запрос на адрес `api/v1/posts/`
+
 В ответ вы получите список последних постов:
 `[
     {
@@ -83,6 +84,7 @@ python3 manage.py runserver
 ]`
 
 Для получения одного поста по его id, отправте GET-запрос на адрес `api/v1/posts/`
+
 В ответ вы получите нужный вам пост:
 `{
     "id": 1,
@@ -93,13 +95,16 @@ python3 manage.py runserver
     "group": null
 }`
 
-## Технологии проекта
+## Технологии проекта:
 
 Django 3.2
+
 djangorestframework==3.12.4
 
-## Автор
+## Автор:
 
 Троянов Ю.С. 
+
 Email: troyan0v@yandex.com
+
 GitHub: github.com/troyanoff
